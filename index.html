@@ -66,12 +66,22 @@ button{font:inherit;color:inherit;cursor:pointer}
 .key{display:flex;flex-wrap:wrap;gap:6px 22px;margin-top:14px;font-size:15px;color:var(--ink-soft)}
 .key i{display:inline-block;width:22px;height:5px;margin-right:7px;vertical-align:middle}
 
+/* cycle charts and links */
+.cyc{margin-top:12px}
+.charts{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 6px}
+.chart{margin:0;flex:1 1 210px;min-width:0;background:var(--bg);border:1px solid var(--line);padding:6px 6px 2px}
+.chart svg{width:100%;height:auto;display:block}
+.chart figcaption{font-size:13px;color:var(--ink-soft);text-align:center}
+.cols .links{list-style:none;padding:0}
+.cols .links li{margin:0 0 .8em}
+.cols .links a{font-weight:600;text-underline-offset:3px}
 /* identity bar */
-.topbar{background:#1e1e1e;color:#fff;border-bottom:5px solid #a51c30;padding:12px 0 11px;padding-top:calc(12px + env(safe-area-inset-top,0px))}
-.topbar .wrap{display:flex;flex-direction:column;gap:2px}
-.topbar a{color:#fff;text-decoration:none;font-weight:600;font-size:15px;letter-spacing:-.005em}
+.topbar{position:relative;overflow:hidden;background:#f8c018;color:#1e1e1e;padding:14px 0 13px;padding-top:calc(14px + env(safe-area-inset-top,0px))}
+.topbar::after{content:"";position:absolute;left:0;right:0;bottom:0;height:7px;background:#b01830}
+.topbar .wrap{position:relative;z-index:1;display:flex;flex-direction:column;gap:2px;padding-bottom:6px}
+.topbar a{color:#1e1e1e;text-decoration:none;font-weight:600;font-size:15px;letter-spacing:-.005em}
 .topbar a:hover{text-decoration:underline}
-.topbar span{font-size:14px;color:#c9d0d6}
+.topbar span{font-size:14px}
 .tlegend{display:flex;align-items:center;gap:10px;margin:12px 0 0;font-size:14px;color:var(--ink-soft)}
 .tbar{position:relative;flex:1;height:12px;border:1px solid var(--line)}
 .tbar i{position:absolute;top:-6px;left:0;width:4px;height:22px;margin-left:-2px;background:var(--ink);border:1px solid var(--bg);transition:left .1s linear}
@@ -107,12 +117,15 @@ td .open{display:block;margin-top:0}
 .linkbtn:hover{text-decoration-thickness:2px}
 
 /* explorer */
-.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:18px 0 22px}
-.tabs .sep{flex-basis:100%;height:0}
-.tab{display:flex;align-items:center;gap:9px;background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--green);padding:6px 12px 6px 6px;border-radius:2px;font-weight:600;font-size:15px}
-.tab.in{border-top-color:var(--red)}
-.tab img{width:46px;height:34px;object-fit:cover;display:block;background:var(--cast2)}
-.tab[aria-current="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px 0 16px}
+@media (max-width:760px){.tabs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.tabs .mcard span{font-size:16px;padding:10px 12px 11px}
+.mcard[aria-current="true"]{outline:3px solid var(--ink);outline-offset:-3px}
+.mcard[aria-current="true"] span{background:var(--ink);color:var(--bg)}
+.picker{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 12px}
+.chipbtn{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--green);border-radius:2px;padding:6px 14px;font-weight:600;font-size:15px}
+.chipbtn.in{border-top-color:var(--red)}
+.chipbtn[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .panel{background:var(--surface);border:1px solid var(--line);border-top:6px solid var(--green);padding:26px 24px 30px}
 .panel.in{border-top-color:var(--red)}
 .phead{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;margin-bottom:6px}
@@ -197,7 +210,7 @@ footer p{max-width:80ch}
 </style>
 </head>
 <body>
-<div class="topbar"><div class="wrap"><a href="https://seas.harvard.edu/">Harvard John A. Paulson School of Engineering and Applied Sciences</a><span><a href="https://seas.harvard.edu/active-learning-labs/mechanical-engineering" style="font-weight:500;font-size:14px;color:#c9d0d6">Active Learning Labs, Mechanical Engineering</a></span></div></div>
+<div class="topbar"><div class="wrap"><a href="https://seas.harvard.edu/">Harvard John A. Paulson School of Engineering and Applied Sciences</a><span><a href="https://seas.harvard.edu/active-learning-labs/mechanical-engineering" style="font-weight:500;font-size:14px;color:#1e1e1e">Active Learning Labs, Mechanical Engineering</a></span></div></div>
 <header class="hero"><div class="wrap">
   <div class="hero-head">
   <div class="intro">
@@ -209,8 +222,8 @@ footer p{max-width:80ch}
   <nav class="nav" aria-label="Sections">
     <a href="#prep">Before in-person training</a>
     <a href="#explore">Walk through the models</a>
-    <a href="#idea">The common thread</a>
-    <a href="#check">Check yourself</a>
+    <a href="#idea">Compare engines</a>
+    <a href="#check">Check your understanding</a>
   </nav>
 <div id="prep" class="prep">
   <h2>Before in-person training</h2>
@@ -224,8 +237,6 @@ footer p{max-width:80ch}
     </ul>
   </div>
 </div>
-  <div class="models" id="gallery" role="list"></div>
-  <div class="key" aria-hidden="true"><span><i style="background:var(--green)"></i>Heat applied from outside</span><span><i style="background:var(--red)"></i>Fuel burns inside</span></div>
 </div></header>
 
 <main>
@@ -234,30 +245,23 @@ footer p{max-width:80ch}
   <h2>Walk through the models</h2>
   <p class="lede">Pick a model. Use the numbered steps to play each stage of its cycle, then tap the dots on the photo to find the matching parts on the bench.</p>
   <div class="tabs" id="tabs" role="group" aria-label="Choose a model"></div>
+  <div class="key" style="margin:0 0 20px" aria-hidden="true"><span><i style="background:var(--green)"></i>Heat applied from outside</span><span><i style="background:var(--red)"></i>Fuel burns inside</span></div>
+
   <article class="panel" id="panel" aria-live="off"></article>
 </div></section>
 
 <section id="idea"><div class="wrap">
-  <h2>The common thread</h2>
-  <p class="lede">Every engine in this lab is a heat engine. A gas is compressed, heated, allowed to expand, then released or cooled. Compressing cool gas costs less work than the hot gas gives back when it expands, and that difference is what turns the shaft.</p>
-  <div class="beats">
-    <div class="beat"><h4>Compress</h4><p>Squeeze the working gas while it is still cool.</p></div>
-    <div class="beat"><h4>Add heat</h4><p>Burn fuel in it, or heat it through a wall.</p></div>
-    <div class="beat"><h4>Expand</h4><p>The hot, high-pressure gas pushes a piston, rotor or turbine.</p></div>
-    <div class="beat"><h4>Reject heat</h4><p>Exhaust the gas or cool it, ready to start again.</p></div>
-  </div>
-  <div class="groups">
-    <div class="group"><h4>Heat applied from outside</h4><p>Steam and Stirling. The flame never touches the working fluid, so almost any heat source will do.</p></div>
-    <div class="group in"><h4>Fuel burns inside</h4><p>Petrol, diesel, Wankel and jet. The fuel burns in the working gas itself, which is then thrown away each cycle.</p></div>
-  </div>
-  <h3 style="margin:8px 0 12px">Where each beat happens</h3>
+  <h2>Compare engines</h2>
+  <p class="lede">Every engine here is a heat engine: compress a gas, add heat, let it expand, then reject heat. Choose the engines you want to compare to see where each step happens in each one.</p>
+  <div class="picker" role="group" aria-label="Choose engines to compare" id="picker"></div>
+  <div class="controls" style="margin:0 0 16px"><button class="btn" type="button" id="cmpAll">Select all</button><button class="btn" type="button" id="cmpNone">Clear</button></div>
   <div class="tablewrap" tabindex="0" role="region" aria-label="Comparison table, scrolls sideways on small screens">
     <table id="cmp"></table>
   </div>
 </div></section>
 
 <section id="check"><div class="wrap">
-  <h2>Check yourself</h2>
+  <h2>Check your understanding</h2>
   <p class="lede">Eight quick questions, the kind students tend to ask. Answers explain themselves.</p>
   <div id="quiz"></div>
   <p class="score" id="score" aria-live="polite"></p>
@@ -397,14 +401,142 @@ const COMPARE = [
 ];
 
 const QUIZ = [
- {q:"Which engine has no spark plug and lights its fuel purely by compressing air?", o:["Petrol","Diesel","Wankel","Stirling"], a:1, x:"The diesel compresses air only, to around 600–900 °C, then injects fuel into it. The petrol and Wankel use a spark; the Stirling has no combustion inside at all."},
- {q:"Which pair applies heat from outside the engine?", o:["Petrol and diesel","Wankel and jet","Steam and Stirling","Jet and diesel"], a:2, x:"Steam and Stirling engines are heated through a wall or boiler. In the others, the fuel burns in the working gas."},
- {q:"How many crank revolutions make up one cycle of a four-stroke piston engine?", o:["One","Two","Four","Half of one"], a:1, x:"Four strokes at half a revolution each makes two revolutions, with one power stroke."},
- {q:"What does the turbine in the jet model do?", o:["Injects the fuel","Squeezes the incoming air","Drives the compressor through a shared shaft","Cools the exhaust before it leaves"], a:2, x:"The turbine takes energy from the hot gas to turn the compressor. What is left over leaves through the nozzle as thrust."},
- {q:"What is the displacer’s job in a Stirling engine?", o:["It delivers the power to the flywheel","It compresses the gas","It shuttles the gas between the hot and cold ends","It injects heat from the flame"], a:2, x:"The displacer only moves gas between the ends. The power piston is what does the work."},
- {q:"Which engine does the Wankel share its cycle with?", o:["Steam engine","Diesel engine","Jet engine","Petrol engine"], a:3, x:"Both run the Otto cycle: intake, compression, spark-ignited power, exhaust. The Wankel does it in chambers around a rotor, with ports in place of valves."},
- {q:"Why is the steam engine on the bench called double acting?", o:["It has two cylinders","Steam pushes on both faces of the piston in turn","It runs on steam and air","It has two flywheels"], a:1, x:"The valve sends steam to one face, then the other, so the piston is driven in both directions."},
- {q:"A student asks why the Stirling engine stops when the flame is removed. What is the best answer?", o:["The gas leaks out when it cools","The displacer jams","It needs a temperature difference to produce net work","The flywheel is too heavy"], a:2, x:"Without a hot end and a cold end, the gas does no more work pushing out than it takes pushing in, so there is no net output."}
+ {
+  "q": "Which engine has no spark plug and lights its fuel purely by compressing air?",
+  "o": [
+   "Petrol",
+   "Diesel",
+   "Wankel",
+   "Stirling"
+  ],
+  "a": 1,
+  "x": "The diesel compresses air only, to around 600–900 °C, then injects fuel into it.",
+  "w": [
+   "Petrol engines use a spark plug to start combustion.",
+   null,
+   "The Wankel is spark-ignited, just like the petrol engine.",
+   "The Stirling has no combustion inside the engine at all; it is heated from outside."
+  ]
+ },
+ {
+  "q": "Which pair applies heat from outside the engine?",
+  "o": [
+   "Petrol and diesel",
+   "Wankel and jet",
+   "Steam and Stirling",
+   "Jet and diesel"
+  ],
+  "a": 2,
+  "x": "Steam and Stirling engines are heated through a wall or boiler. In the others, the fuel burns in the working gas.",
+  "w": [
+   "In petrol and diesel engines the fuel burns inside the cylinder.",
+   "Wankel and jet engines both burn fuel inside the engine.",
+   null,
+   "Both of these burn fuel in the working gas itself."
+  ]
+ },
+ {
+  "q": "How many crank revolutions make up one cycle of a four-stroke piston engine?",
+  "o": [
+   "One",
+   "Two",
+   "Four",
+   "Half of one"
+  ],
+  "a": 1,
+  "x": "Four strokes at half a revolution each makes two revolutions, with one power stroke.",
+  "w": [
+   "One revolution is only two strokes, and a four-stroke cycle needs four.",
+   null,
+   "Four revolutions would be eight strokes. Each stroke is half a revolution.",
+   "Half a revolution is a single stroke."
+  ]
+ },
+ {
+  "q": "What does the turbine in the jet model do?",
+  "o": [
+   "Injects the fuel",
+   "Squeezes the incoming air",
+   "Drives the compressor through a shared shaft",
+   "Cools the exhaust before it leaves"
+  ],
+  "a": 2,
+  "x": "The turbine takes energy from the hot gas to turn the compressor. What is left over leaves through the nozzle as thrust.",
+  "w": [
+   "Fuel goes in at the combustion chamber, upstream of the turbine.",
+   "Squeezing the air is the compressor’s job. The turbine is what drives the compressor.",
+   null,
+   "The gas does cool as it expands through the turbine, but that is a side effect. Its job is to drive the compressor."
+  ]
+ },
+ {
+  "q": "What is the displacer’s job in a Stirling engine?",
+  "o": [
+   "It delivers the power to the flywheel",
+   "It compresses the gas",
+   "It shuttles the gas between the hot and cold ends",
+   "It injects heat from the flame"
+  ],
+  "a": 2,
+  "x": "The displacer only moves gas between the ends. The power piston is what does the work.",
+  "w": [
+   "The power piston delivers the power. The displacer only moves gas around.",
+   "The power piston compresses the gas as it moves in. The displacer just relocates it.",
+   null,
+   "Heat comes from the flame through the cylinder wall. The displacer doesn’t add any."
+  ]
+ },
+ {
+  "q": "Which engine does the Wankel share its cycle with?",
+  "o": [
+   "Steam engine",
+   "Diesel engine",
+   "Jet engine",
+   "Petrol engine"
+  ],
+  "a": 3,
+  "x": "Both run the Otto cycle: intake, compression, spark-ignited power, exhaust. The Wankel does it in chambers around a rotor, with ports in place of valves.",
+  "w": [
+   "The steam engine runs the Rankine cycle, with heat added by a boiler.",
+   "The diesel has no spark and adds heat by injecting fuel into hot compressed air, so it follows a different cycle.",
+   "The jet follows the Brayton cycle with continuous flow, not separate strokes.",
+   null
+  ]
+ },
+ {
+  "q": "Why is the steam engine on the bench called double acting?",
+  "o": [
+   "It has two cylinders",
+   "Steam pushes on both faces of the piston in turn",
+   "It runs on steam and air",
+   "It has two flywheels"
+  ],
+  "a": 1,
+  "x": "The valve sends steam to one face, then the other, so the piston is driven in both directions.",
+  "w": [
+   "The model has a single cylinder. “Double acting” describes how the piston is driven.",
+   null,
+   "The name says nothing about the working fluid.",
+   "The model has one flywheel, and the term describes the piston, not the wheels."
+  ]
+ },
+ {
+  "q": "A student asks why the Stirling engine stops when the flame is removed. What is the best answer?",
+  "o": [
+   "The gas leaks out when it cools",
+   "The displacer jams",
+   "It needs a temperature difference to produce net work",
+   "The flywheel is too heavy"
+  ],
+  "a": 2,
+  "x": "Without a hot end and a cold end, the gas does no more work pushing out than it takes pushing in, so there is no net output.",
+  "w": [
+   "The gas is sealed in. It does not leak out as the engine cools.",
+   "A jam isn’t what normally stops it. The engine stops because the temperature difference that drives it disappears.",
+   null,
+   "The flywheel stores energy and helps the engine keep turning. It isn’t why the engine stops."
+  ]
+ }
 ];
 
 const CHECKLIST = [
@@ -413,6 +545,8 @@ const CHECKLIST = [
  "I know which engines are heated from outside, and which burn fuel inside.",
  "I have reviewed the safety information below."
 ];
+
+const LINKS = {"steam": [{"t": "Steam locomotive (Wikipedia)", "u": "https://en.wikipedia.org/wiki/Steam_locomotive", "d": "Piston steam engines on wheels: the classic double-acting engine, like the one on your bench."}, {"t": "Steam turbine (Wikipedia)", "u": "https://en.wikipedia.org/wiki/Steam_turbine", "d": "The same Rankine cycle, but the steam spins a turbine instead of pushing a piston."}], "stirling-glass": [{"t": "Gotland-class submarine (Wikipedia)", "u": "https://en.wikipedia.org/wiki/Gotland-class_submarine", "d": "Swedish submarines that use Stirling engines to run quietly when submerged."}, {"t": "The secret to the world’s most silent submarine (Saab)", "u": "https://www.saab.com/newsroom/stories/2015/march/the-secret-to-the-worlds-most-silent-submarine", "d": "How the Stirling engine is used in Swedish submarines."}], "stirling-hotair": [{"t": "Gotland-class submarine (Wikipedia)", "u": "https://en.wikipedia.org/wiki/Gotland-class_submarine", "d": "Swedish submarines that use Stirling engines to run quietly when submerged."}, {"t": "The secret to the world’s most silent submarine (Saab)", "u": "https://www.saab.com/newsroom/stories/2015/march/the-secret-to-the-worlds-most-silent-submarine", "d": "How the Stirling engine is used in Swedish submarines."}], "petrol": [{"t": "Four-stroke engine (Wikipedia)", "u": "https://en.wikipedia.org/wiki/Four-stroke_engine", "d": "The cycle behind cars, trucks, light aircraft and motorcycles."}, {"t": "Gasoline engine (Britannica)", "u": "https://www.britannica.com/technology/gasoline-engine/Introduction", "d": "Covers cars, motorcycles and lawn mowers."}], "diesel": [{"t": "The giant diesel engine that powers huge shipping containers (Popular Science)", "u": "https://www.popsci.com/diesel-engine-powers-huge-shipping-containers/", "d": "A giant two-stroke diesel that powers container ships, and how it compares with a car engine. (Your model is a four-stroke.)"}, {"t": "Four-stroke engine (Wikipedia)", "u": "https://en.wikipedia.org/wiki/Four-stroke_engine", "d": "Four-stroke diesels also power trucks and trains."}], "wankel": [{"t": "Mazda RX-8 (Wikipedia)", "u": "https://en.wikipedia.org/wiki/Mazda_RX-8", "d": "A sports car built from 2003 to 2012 with a twin-rotor Wankel engine."}, {"t": "Mazda’s first rotary engine in more than a decade (The Drive)", "u": "https://www.thedrive.com/news/mazdas-first-rotary-engine-in-more-than-a-decade-is-an-mx-30-range-extender", "d": "A small Wankel used as a generator in the MX-30 R-EV."}], "jet": [{"t": "General Electric J85 (Wikipedia)", "u": "https://en.wikipedia.org/wiki/General_Electric_J85", "d": "A compact turbojet used in the T-38 Talon trainer and the F-5 fighter."}, {"t": "Turbojet engine, cutaway, GE J85-GE-17A (Smithsonian)", "u": "https://si.edu/object/nasm_A19800072000", "d": "A cutaway of a real turbojet, much like your model."}]};
 
 const reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
 const NS = "http://www.w3.org/2000/svg";
@@ -446,7 +580,7 @@ function tween(ms, fn, done){
   };
   raf = requestAnimationFrame(tick);
 }
-const TEMP=[[0,"#4e88c7"],[.15,"#95b5df"],[.3,"#ffde2d"],[.45,"#fcb315"],[.7,"#ed1b34"],[1,"#a51c30"]];
+const TEMP=[[0,"#3f78c4"],[.15,"#9fc4ea"],[.3,"#f0dfb0"],[.45,"#f2a45a"],[.7,"#e0502d"],[1,"#8c1c13"]];
 const tempColor=t=>keyColor(TEMP,Math.max(0,Math.min(1,t)));
 const tK=T=>Math.sqrt(Math.max(0,Math.min(1,(T-250)/2350)));
 const GAS="#c3ccd3";
@@ -454,26 +588,74 @@ function reportTemp(t){ return; }
 function _unusedReport(t){ const m=document.getElementById("tmark"); if(m) m.style.left=(Math.max(0,Math.min(1,t))*100)+"%"; }
 const C_AIR="#9cc0ea", C_MIX="#f2d3a0", C_HOT="#e0502d", C_COLD="#5b8fd0", C_EXH="#8d8f92", C_STEAM="#e8715f", C_VENT="#8fd0e8";
 
+
+/* ---------- pV / Ts chart helper ---------- */
+let cycleDotFn = null;
+function cycleDot(f){ if (cycleDotFn) cycleDotFn(f); }
+function lerpPt(pts,f){
+  const n=pts.length-1, x=Math.max(0,Math.min(1,f))*n, i=Math.min(n-1,Math.floor(x)), t=x-i;
+  return [pts[i][0]+(pts[i+1][0]-pts[i][0])*t, pts[i][1]+(pts[i+1][1]-pts[i][1])*t];
+}
+function makeChart(spec){
+  const W=230,Hh=190,ml=34,mb=30,mt=12,mr=12;
+  const svg=S("svg",{viewBox:"0 0 "+W+" "+Hh,role:"img","aria-label":spec.label});
+  const all=spec.pts.concat(spec.dome||[]);
+  let x0=Infinity,x1=-Infinity,y0=Infinity,y1=-Infinity;
+  all.forEach(p=>{x0=Math.min(x0,p[0]);x1=Math.max(x1,p[0]);y0=Math.min(y0,p[1]);y1=Math.max(y1,p[1]);});
+  const px=(x1-x0)*.08||1, py=(y1-y0)*.1||1;
+  x0-=px;x1+=px;y0-=py;y1+=py;
+  if (spec.yzero){ y0=Math.min(y0,0); }
+  const X=x=>ml+(x-x0)/(x1-x0)*(W-ml-mr), Y=y=>Hh-mb-(y-y0)/(y1-y0)*(Hh-mb-mt);
+  S("line",{x1:ml,y1:Hh-mb,x2:W-mr,y2:Hh-mb,stroke:"var(--ink-soft)","stroke-width":1.5},svg);
+  S("line",{x1:ml,y1:Hh-mb,x2:ml,y2:mt,stroke:"var(--ink-soft)","stroke-width":1.5},svg);
+  S("path",{d:"M"+(W-mr-6)+" "+(Hh-mb-4)+" L"+(W-mr)+" "+(Hh-mb)+" L"+(W-mr-6)+" "+(Hh-mb+4),fill:"none",stroke:"var(--ink-soft)","stroke-width":1.5},svg);
+  S("path",{d:"M"+(ml-4)+" "+(mt+6)+" L"+ml+" "+mt+" L"+(ml+4)+" "+(mt+6),fill:"none",stroke:"var(--ink-soft)","stroke-width":1.5},svg);
+  const xt=S("text",{x:(ml+W-mr)/2,y:Hh-8,"text-anchor":"middle"},svg); xt.textContent=spec.xl;
+  const yt=S("text",{x:12,y:(mt+Hh-mb)/2,"text-anchor":"middle",transform:"rotate(-90 12 "+((mt+Hh-mb)/2)+")"},svg); yt.textContent=spec.yl;
+  if (spec.dome){ S("path",{d:"M"+spec.dome.map(p=>X(p[0]).toFixed(1)+" "+Y(p[1]).toFixed(1)).join(" L"),fill:"var(--cast2)",stroke:"var(--ink-soft)","stroke-width":1,"stroke-dasharray":"3 3",opacity:.9},svg); }
+  S("path",{d:"M"+spec.pts.map(p=>X(p[0]).toFixed(1)+" "+Y(p[1]).toFixed(1)).join(" L"),fill:"none",stroke:"var(--ink)","stroke-width":2.2,"stroke-linejoin":"round"},svg);
+  (spec.marks||[]).forEach(m=>{ const p=lerpPt(spec.pts,m.f); S("circle",{cx:X(p[0]),cy:Y(p[1]),r:3,fill:"var(--bg)",stroke:"var(--ink)","stroke-width":1.5},svg); const t=S("text",{x:X(p[0])+6,y:Y(p[1])-5,"font-size":13,style:"font-weight:600;fill:var(--ink)"},svg); t.textContent=m.n; });
+  const dot=S("circle",{r:6.5,fill:"#a51c30",stroke:"#fff","stroke-width":2},svg);
+  return {el:svg, set(f){ const p=lerpPt(spec.pts,f); dot.setAttribute("cx",X(p[0])); dot.setAttribute("cy",Y(p[1])); }};
+}
+
 /* ---------- four-stroke piston engines (petrol, diesel) ---------- */
 function visFour(kind){
   const diesel = kind === "diesel";
   const svg = S("svg", {viewBox:"0 0 360 360", role:"img", "aria-label": diesel ? "Animated diesel cylinder" : "Animated petrol cylinder"});
   const cx=180, cy=294, r=40, L= diesel ? 108 : 96, off=22, headY=118;
-  const ranges = diesel ? [[0,180],[180,330],[330,372],[372,540],[540,720]] : [[0,180],[180,360],[360,540],[540,720]];
-  // gas temperature model: adiabatic compression and expansion from the real cylinder volume
+  const ranges = diesel ? [[0,180],[180,330],[330,392],[392,540],[540,720]] : [[0,180],[180,360],[360,540],[540,720]];
+  // idealised gas state from the real cylinder volume (adiabatic compression and expansion)
   const crownAt = th => { const a=rad(th%720), px=cx+r*Math.sin(a), py=cy-r*Math.cos(a); return py-Math.sqrt(L*L-(px-cx)*(px-cx))-off; };
-  const Vmax = crownAt(180)-headY, Vmin = crownAt(0)-headY, G=.4, T0=300;
-  const ign0 = diesel ? 345 : 360, Vref = crownAt(372)-headY;
-  const T2 = T0*Math.pow(Vmax/Vmin,G), Tpk = diesel ? 2050 : T2*3.3;
-  const Tgas = (th,V) => {
-    if (th<20) return 500+(T0-500)*(th/20);
-    if (th<180) return T0;
-    const Tc = T0*Math.pow(Vmax/V,G);
-    if (th<ign0) return Tc;
-    if (th<372) return Tc+(Tpk-Tc)*((th-ign0)/(372-ign0));
-    if (th<540) return Tpk*Math.pow(Vref/V,G);
-    const Te = Tpk*Math.pow(Vref/Vmax,G);
-    return th<580 ? Te+(500-Te)*((th-540)/40) : 500;
+  const Vof = th => Math.max(1, crownAt(th)-headY);
+  const Vmax = Vof(180), G=.4, T0=300;
+  const ign0 = diesel ? 345 : 360, heatEnd = diesel ? 392 : 372, Vref = Vof(heatEnd);
+  const Tcomp = V => T0*Math.pow(Vmax/V,G);
+  const pc = Math.pow(Vmax/Vof(ign0),1.4);           // diesel: constant-pressure heating
+  const Tpk = diesel ? T0*pc*Vref/Vmax : Tcomp(Vof(ign0))*3.3;
+  const Te = Tpk*Math.pow(Vref/Vmax,G);
+  function state(th){
+    const V=Vof(th); let T=T0, p=1, s=0;
+    if (th<180){ T=T0; p=1; }
+    else if (th<ign0){ T=Tcomp(V); p=(T/T0)*(Vmax/V); }
+    else if (th<heatEnd){
+      const f=(th-ign0)/(heatEnd-ign0);
+      if (diesel){ p=pc; T=T0*p*V/Vmax; } else { const Tc=Tcomp(Vof(ign0)); T=Tc+(Tpk-Tc)*f; p=(T/T0)*(Vmax/V); }
+    }
+    else if (th<540){ T=Tpk*Math.pow(Vref/V,G); p=(T/T0)*(Vmax/V); }
+    else if (th<560){ T=Te+(T0-Te)*((th-540)/20); p=(T/T0)*(Vmax/V); }
+    else { T=T0; p=1; }
+    if (th>=180 && th<560) s=2.5*Math.log(T/T0)+Math.log(V/Vmax);
+    return {V,p,T,s};
+  }
+  const sp=[], st=[]; for(let th=0;th<=720;th+=2){ const q=state(th); sp.push([q.V,q.p]); st.push([q.s,q.T/T0]); }
+  const marks=[[180,"1"],[ign0,"2"],[heatEnd,"3"],[540,"4"]].map(([th,n])=>({f:th/720,n}));
+  const chart = {
+    pv:{pts:sp,marks,xl:"volume V",yl:"pressure p",label:"pV diagram with a moving dot",yzero:true},
+    ts:{pts:st,marks,xl:"entropy s",yl:"temperature T",label:"Ts diagram with a moving dot"},
+    caption: diesel
+      ? "1→2 air compressed, 2→3 fuel injected and heat added at roughly constant pressure, 3→4 expansion, 4→1 heat rejected (exhaust). The flat line at the bottom of the pV diagram is the intake and exhaust strokes."
+      : "1→2 mixture compressed, 2→3 spark adds heat at nearly constant volume, 3→4 expansion, 4→1 heat rejected (exhaust). The flat line at the bottom of the pV diagram is the intake and exhaust strokes."
   };
   // static
   S("circle",{cx,cy,r:58,class:"s-cast2"},svg);
@@ -519,8 +701,7 @@ function visFour(kind){
     const crown = pinY - off;
     pistonG.setAttribute("transform","translate(0,"+crown+")");
     gas.setAttribute("y", headY); gas.setAttribute("height", Math.max(0,crown-headY));
-    const tg = tK(Tgas(th, Math.max(1,crown-headY)));
-    gas.setAttribute("fill", GAS);
+    gas.setAttribute("fill", GAS); cycleDot((th%720)/720);
     rod.setAttribute("y1",pinY); rod.setAttribute("x2",px); rod.setAttribute("y2",py);
     arm.setAttribute("x2",px); arm.setAttribute("y2",py);
     pin.setAttribute("cx",px); pin.setAttribute("cy",py);
@@ -529,10 +710,10 @@ function visFour(kind){
     vEx.setAttribute("transform","translate(0,"+(exOpen?6:0)+")");
     inArrow.setAttribute("opacity", inOpen?1:.18); outArrow.setAttribute("opacity", exOpen?1:.18);
     if (spark) spark.setAttribute("opacity", Math.max(0, 1-Math.abs(th-368)/12));
-    if (spray) spray.setAttribute("opacity", th>=330 && th<360 ? 1 : th>=360 && th<372 ? (372-th)/12 : 0);
+    if (spray) spray.setAttribute("opacity", th>=330 && th<360 ? 1 : th>=360 && th<380 ? (380-th)/20 : 0);
   }
   return {
-    el: svg,
+    el: svg, chart,
     go(i, instant, done){
       const [a,b] = ranges[i];
       if (instant){ stopAnim(); draw(b-0.01); if (done) done(); return; }
@@ -580,8 +761,24 @@ function visJet(){
   }
   if (!reduce){ t0=performance.now(); loopId=requestAnimationFrame(ambient); }
   setActive(0);
-  return { el:svg,
-    go(i,instant,done){ setActive(i); t0=performance.now(); if(done) setTimeout(done, reduce?0:2600); },
+  // ideal Brayton cycle, 30 points per process
+  const rp=8, k=.2857, T1=1, T2=Math.pow(rp,k), T3=1400/300, T4=T3/T2;
+  const pj=[], tj=[]; const add=(p,T)=>{ pj.push([T/p,p]); tj.push([3.5*Math.log(T/T1)-Math.log(p),T]); };
+  for(let i=0;i<30;i++){ const p=Math.pow(rp,i/30); add(p,T1*Math.pow(p,k)); }
+  for(let i=0;i<30;i++){ add(rp,T2+(T3-T2)*i/30); }
+  for(let i=0;i<30;i++){ const p=rp*Math.pow(1/rp,i/30); add(p,T3*Math.pow(p/rp,k)); }
+  for(let i=0;i<=30;i++){ add(1,T4+(T1-T4)*i/30); }
+  const bm=[{f:0,n:"1"},{f:.25,n:"2"},{f:.5,n:"3"},{f:.75,n:"4"}];
+  const chart={ pv:{pts:pj,marks:bm,xl:"volume V",yl:"pressure p",label:"pV diagram with a moving dot"}, ts:{pts:tj,marks:bm,xl:"entropy s",yl:"temperature T",label:"Ts diagram with a moving dot"},
+    caption:"Follows a parcel of air through the engine: 1→2 compressor, 2→3 combustor (heat added at constant pressure), 3→4 turbine and nozzle (expansion), 4→1 heat rejected to the atmosphere." };
+  const fr=[[0,0],[0,.25],[.25,.5],[.5,.75],[.75,1]];
+  return { el:svg, chart,
+    go(i,instant,done){
+      setActive(i); t0=performance.now();
+      const [a,b]=fr[i];
+      if (instant){ stopAnim(); cycleDot(b); if(done) done(); return; }
+      tween(i===0?1200:2200, t=>cycleDot(a+(b-a)*t), done);
+    },
     destroy(){ cancelAnimationFrame(loopId); }
   };
 }
@@ -615,11 +812,13 @@ function visSteam(){
   const arm = S("line",{x1:cx,y1:cy,stroke:"var(--ink)","stroke-width":6,"stroke-linecap":"round"},svg);
   S("circle",{cx,cy,r:7,class:"s-metal"},svg);
   const pin = S("circle",{r:7,class:"s-enamel"},svg);
-  // arrows
-  const inA = S("path",{d:"M300 48 L316 62 L300 76 M316 62 H270",fill:"none",stroke:"#4a545d","stroke-width":5,"stroke-linecap":"round","stroke-linejoin":"round"},svg);
-  const t1 = S("text",{x:262,y:40},svg); t1.textContent="steam in";
-  const outA = S("path",{d:"M336 76 L336 52 M326 62 L336 50 L346 62",fill:"none",stroke:"#4a545d","stroke-width":5,"stroke-linecap":"round","stroke-linejoin":"round"},svg);
-  const t2 = S("text",{x:352,y:48},svg); t2.textContent="vented";
+  // inlet pipe (steam enters the steam chest from above) and exhaust pipe (steam leaves the chest)
+  S("rect",{x:293,y:46,width:22,height:40,class:"s-cast"},svg);
+  S("rect",{x:333,y:46,width:22,height:40,class:"s-cast"},svg);
+  const inA = S("path",{d:"M304 50 V76 M296 68 L304 78 L312 68",fill:"none",stroke:"#1e1e1e","stroke-width":5,"stroke-linecap":"round","stroke-linejoin":"round"},svg);
+  const t1 = S("text",{x:286,y:70,"text-anchor":"end"},svg); t1.textContent="steam in";
+  const outA = S("path",{d:"M344 76 V52 M336 60 L344 50 L352 60",fill:"none",stroke:"#1e1e1e","stroke-width":5,"stroke-linecap":"round","stroke-linejoin":"round"},svg);
+  const t2 = S("text",{x:362,y:70},svg); t2.textContent="vented";
   const lab = S("text",{x:250,y:246},svg);
   const FED="#97a3ac", VENT="#e6e9ec";
   function setT(tl,tr,f){
@@ -643,15 +842,34 @@ function visSteam(){
     {a:180,b:360,f:"R",L:[X,E],R:[H,M]},
     {a:360,b:360,f:"L",L:[E,H],R:[M,X]}];
   const lerp=(a,b,t)=>a+(b-a)*t;
-  return { el:svg,
+  // Rankine loop sketch (schematic): 3->4 expansion, 4->1 condensing, 1->2 pump, 2->3 boiler
+  const NE=40,NC=40,NP=8,NH=40,NB=40,NS=24, NT=NE+NC+NP+NH+NB+NS;
+  const sl=T=>{const t=(T-.08)/.89; return .04+.46*Math.pow(t,1.2);};
+  const ts=[],pv=[]; const seg=(n,fn)=>{ for(let i=0;i<n;i++) fn(i/n); };
+  seg(NE,u=>{ts.push([.76,.86-.66*u]); const o=1-u; pv.push([o*o*.60+2*o*u*.62+u*u*.74, o*o*.62+2*o*u*.25+u*u*.12]);});
+  seg(NC,u=>{ts.push([.76-(.76-.081)*u,.2]); pv.push([.74-(.74-.052)*u,.12]);});
+  seg(NP,u=>{ts.push([.081,.2+.015*u]); pv.push([.052,.12+.5*u]);});
+  seg(NH,u=>{const T=.215+(.72-.215)*u; ts.push([sl(T),T]); pv.push([.052+(.154-.052)*u,.62]);});
+  seg(NB,u=>{ts.push([.35+(.679-.35)*u,.72]); pv.push([.154+(.483-.154)*u,.62]);});
+  seg(NS,u=>{ts.push([.679+(.76-.679)*u,.72+.14*u]); pv.push([.483+(.60-.483)*u,.62]);});
+  ts.push([.76,.86]); pv.push([.60,.62]);
+  const domeTs=[], domePv=[];
+  for(let i=0;i<=40;i++){ const t=i/40; domeTs.push([.04+.46*Math.pow(t,1.2),.08+.89*t]); domePv.push([.05+.27*t*t,.05+.92*t]); }
+  for(let i=40;i>=0;i--){ const t=i/40; domeTs.push([.96-.46*Math.pow(t,1.5),.08+.89*t]); domePv.push([.32+.63*Math.pow(1-t,1.4),.05+.92*t]); }
+  const fe=NE/NT, sm=[{f:0,n:"3"},{f:fe,n:"4"},{f:(NE+NC)/NT,n:"1"},{f:(NE+NC+NP)/NT,n:"2"}];
+  const chart={ pv:{pts:pv,marks:sm,dome:domePv,xl:"volume V (stretched)",yl:"pressure p",label:"pV diagram with a moving dot"}, ts:{pts:ts,marks:sm,dome:domeTs,xl:"entropy s",yl:"temperature T",label:"Ts diagram with a moving dot"},
+    caption:"A sketch of the full Rankine loop, not to scale: 3→4 steam expands in the cylinder, 4→1 it condenses, 1→2 a pump raises the pressure, 2→3 the boiler adds heat. The shaded region is where liquid and vapour coexist. The boiler and condenser aren’t on this bench, so on the model the dot follows the steam’s state." };
+  const frs=[[0,fe],[fe,1],[0,fe],[fe,1]];
+  return { el:svg, chart,
     go(i,instant,done){
       const p=plan[i];
       const stroke = (i===0||i===2);
       [inA,t1].forEach(n=>n.setAttribute("display", stroke?"inline":"none"));
       [outA,t2].forEach(n=>n.setAttribute("display", stroke?"none":"inline"));
       lab.textContent = (p.a===p.b) ? "valve shifts" : (i===0 ? "piston moves right" : "piston moves left");
-      if (instant){ stopAnim(); drawPiston(p.b); setT(p.L[1],p.R[1],p.f); if(done) done(); return; }
-      const run = t=>{ drawPiston(lerp(p.a,p.b,t)); setT(lerp(p.L[0],p.L[1],t),lerp(p.R[0],p.R[1],t),p.f); };
+      const fr=frs[i];
+      if (instant){ stopAnim(); drawPiston(p.b); setT(p.L[1],p.R[1],p.f); cycleDot(fr[1]); if(done) done(); return; }
+      const run = t=>{ drawPiston(lerp(p.a,p.b,t)); setT(lerp(p.L[0],p.L[1],t),lerp(p.R[0],p.R[1],t),p.f); cycleDot(lerp(fr[0],fr[1],t)); };
       if (p.a===p.b){ tween(1100,run,done); return; }
       tween(2200, run, done);
     }
@@ -699,11 +917,27 @@ function visStirling(fins){
     pwr.setAttribute("fill", GAS);
     rod.setAttribute("x1",k.x); rod.setAttribute("y1",cy); rod.setAttribute("x2",k.px); rod.setAttribute("y2",k.py);
     arm.setAttribute("x2",k.px); arm.setAttribute("y2",k.py); pin.setAttribute("cx",k.px); pin.setAttribute("cy",k.py);
+    cycleDot(fOf());
   }
   const plan=[{d0:1,d1:1,p0:0,p1:180},{d0:1,d1:0,p0:180,p1:180},{d0:0,d1:0,p0:180,p1:360},{d0:0,d1:1,p0:360,p1:360}];
-  return { el:svg,
+  // ideal Stirling cycle, 40 points per process (relative units)
+  const Th=1, Tc=.45; const pvs=[], tss=[]; const addS=(V,T)=>{ pvs.push([V,T/V]); tss.push([1.5*Math.log(T)+Math.log(V),T]); };
+  for(let i=0;i<40;i++) addS(1+1.2*i/40,Th);
+  for(let i=0;i<40;i++) addS(2.2,Th+(Tc-Th)*i/40);
+  for(let i=0;i<40;i++) addS(2.2-1.2*i/40,Tc);
+  for(let i=0;i<=40;i++) addS(1,Tc+(Th-Tc)*i/40);
+  const stm=[{f:0,n:"1"},{f:.25,n:"2"},{f:.5,n:"3"},{f:.75,n:"4"}];
+  const chart={ pv:{pts:pvs,marks:stm,xl:"volume V",yl:"pressure p",label:"pV diagram with a moving dot"}, ts:{pts:tss,marks:stm,xl:"entropy s",yl:"temperature T",label:"Ts diagram with a moving dot"},
+    caption:"Idealised Stirling cycle: 1→2 heated gas expands at constant temperature, 2→3 gas moved to the cold end at constant volume, 3→4 cold gas compressed at constant temperature, 4→1 gas moved back to the hot end at constant volume." };
+  let curStep=0;
+  const fOf=()=>{ const w=(1-Math.cos(rad(psi)))/2;
+    if(curStep===0) return .25*w;
+    if(curStep===1) return .25+.25*(1-d);
+    if(curStep===2) return .5+.25*(1-w);
+    return .75+.25*d; };
+  return { el:svg, chart,
     go(i,instant,done){
-      const p=plan[i];
+      const p=plan[i]; curStep=i;
       if (instant){ stopAnim(); d=p.d1; psi=p.p1; draw(); if(done) done(); return; }
       tween(2000, t=>{ d=p.d0+(p.d1-p.d0)*t; psi=p.p0+(p.p1-p.p0)*t; draw(); }, done);
     }
@@ -793,9 +1027,35 @@ function visWankel(){
     arm.setAttribute("x2",g.C[0]); arm.setAttribute("y2",g.C[1]);
     lobe.setAttribute("cx",g.C[0]); lobe.setAttribute("cy",g.C[1]);
     seals.forEach((s,k)=>{ s.setAttribute("cx",t[k][0]); s.setAttribute("cy",t[k][1]); });
+    cycleDot((((a-a0)%1080)+1080)%1080/1080);
   }
+  // idealised gas state for the followed chamber: adiabatic compression and expansion from the chamber area
+  let Amax=0; for(let a=0;a<360;a+=3){ Amax=Math.max(Amax,geom(a).ch[0].area); }
+  const CR=9, G=.4, T0=300, T2w=T0*Math.pow(CR,G), Tpkw=T2w*3.3, Vref=Amax/CR;
+  const Tew=Tpkw*Math.pow(1/CR,G);
+  function stateW(a){
+    const c=geom(a).ch[0];
+    const rel=((c.cang-90)%360+360)%360;
+    const V=Math.max(c.area,Vref);
+    let T=T0,p=1;
+    if(rel<90){ T=T0; p=1; }
+    else if(rel<180){ T=T0*Math.pow(Amax/V,G); p=(T/T0)*(Amax/V); }
+    else if(rel<192){ const Tc=T0*Math.pow(Amax/V,G); T=Tc+(Tpkw-Tc)*((rel-180)/12); p=(T/T0)*(Amax/V); }
+    else if(rel<270){ T=Tpkw*Math.pow(Vref/V,G); p=(T/T0)*(Amax/V); }
+    else if(rel<282){ T=Tew+(T0-Tew)*((rel-270)/12); p=(T/T0)*(Amax/V); }
+    const s=(rel>=90&&rel<282)?2.5*Math.log(T/T0)+Math.log(V/Amax):0;
+    return {V,p,T,s,rel};
+  }
+  const wp=[], wt=[], relAt=[];
+  for(let k=0;k<=360;k++){ const q=stateW(a0+k*3); wp.push([q.V,q.p]); wt.push([q.s,q.T/T0]); relAt.push(q.rel); }
+  // unwrap the stage angle so it increases smoothly from about 0 over the sampled revolution
+  const relU=[]; { let off=relAt[0]>180?-360:0, prev=relAt[0]+off; relU.push(prev); for(let k=1;k<relAt.length;k++){ let v=relAt[k]+off; while(v<prev-180){ off+=360; v+=360; } relU.push(v); prev=v; } }
+  const idxOf=r=>{ for(let k=0;k<relU.length;k++){ if(relU[k]>=r) return k; } return 0; };
+  const wm=[[90,"1"],[180,"2"],[192,"3"],[270,"4"]].map(([r,n])=>({f:idxOf(r)/360,n}));
+  const chart={ pv:{pts:wp,marks:wm,xl:"chamber volume V",yl:"pressure p",label:"pV diagram with a moving dot",yzero:true}, ts:{pts:wt,marks:wm,xl:"entropy s",yl:"temperature T",label:"Ts diagram with a moving dot"},
+    caption:"Follows the dashed chamber: 1→2 mixture compressed, 2→3 spark adds heat at nearly constant volume, 3→4 expansion, 4→1 heat rejected (exhaust). It is the same Otto cycle as the petrol engine." };
   const names=["intake","compression","power","exhaust"];
-  return { el:svg, _debug:{a0,geom,H},
+  return { el:svg, chart, _debug:{a0,geom,H},
     go(i,instant,done){
       const A=a0+270*i, B=A+270;
       stageLab.textContent="Dashed chamber is at: "+names[i];
@@ -808,7 +1068,7 @@ function visWankel(){
 const $ = (s,r=document)=>r.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const state = {current:null, step:0, reviewed:{}, checks:{}, quiz:{}};
-const KEY="es181-engines-training-v1";
+const KEY="es181-engines-training-v2";
 function load(){ try{ const j=JSON.parse(localStorage.getItem(KEY)||"{}"); if(j.reviewed) state.reviewed=j.reviewed; if(j.checks) state.checks=j.checks; if(j.quiz) state.quiz=j.quiz; }catch(e){} }
 function save(){ try{ localStorage.setItem(KEY,JSON.stringify({reviewed:state.reviewed,checks:state.checks,quiz:state.quiz})); }catch(e){} }
 
@@ -822,19 +1082,22 @@ function makeVisual(kind){
   if(kind==="wankel") return visWankel();
 }
 
-function renderGallery(){
-  $("#gallery").innerHTML = ENGINES.map(e=>`<button type="button" role="listitem" class="mcard ${e.group} ${state.reviewed[e.id]?"reviewed":""}" data-id="${e.id}"><img src="${IMG[e.id]}" alt="Photo of the ${esc(e.name)} model"><span>${esc(e.name)}</span><b class="done">Reviewed</b></button>`).join("");
-  $("#gallery").querySelectorAll(".mcard").forEach(b=>b.addEventListener("click",()=>{ openEngine(b.dataset.id,true); }));
-}
 function renderTabs(){
-  $("#tabs").innerHTML = ENGINES.map(e=>`<button type="button" class="tab ${e.group}" data-id="${e.id}" aria-current="${state.current===e.id}"><img src="${IMG[e.id]}" alt=""><span>${esc(e.name)}</span></button>`).join("");
-  $("#tabs").querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>openEngine(b.dataset.id,false)));
+  $("#tabs").innerHTML = ENGINES.map(e=>`<button type="button" class="mcard ${e.group} ${state.reviewed[e.id]?"reviewed":""}" data-id="${e.id}" aria-current="${state.current===e.id}"><img src="${IMG[e.id]}" alt="Photo of the ${esc(e.name)} model"><span>${esc(e.name)}</span><b class="done">Reviewed</b></button>`).join("");
+  $("#tabs").querySelectorAll(".mcard").forEach(b=>b.addEventListener("click",()=>openEngine(b.dataset.id,false)));
 }
+const cmpSel = new Set();
 function renderCompare(){
+  $("#picker").innerHTML = COMPARE.map(r=>`<button type="button" class="chipbtn ${r.g}" data-id="${r.id}" aria-pressed="${cmpSel.has(r.id)}">${esc(r.e)}</button>`).join("");
+  $("#picker").querySelectorAll(".chipbtn").forEach(b=>b.addEventListener("click",()=>{ if(cmpSel.has(b.dataset.id)) cmpSel.delete(b.dataset.id); else cmpSel.add(b.dataset.id); renderCompare(); }));
+  const rows=COMPARE.filter(r=>cmpSel.has(r.id));
   $("#cmp").innerHTML = `<thead><tr><th>Engine</th><th>Cycle</th><th>Compress</th><th>Add heat</th><th>Expand</th><th>Reject heat</th><th>Power pulses</th></tr></thead><tbody>`+
-    COMPARE.map(r=>`<tr class="${r.g}"><th scope="row"><button class="linkbtn" type="button" data-id="${r.id}">${esc(r.e)}</button></th><td>${esc(r.c)}</td><td>${esc(r.comp)}</td><td>${esc(r.heat)}</td><td>${esc(r.exp)}</td><td>${esc(r.rej)}</td><td>${esc(r.pulses)}</td></tr>`).join("")+`</tbody>`;
+    (rows.length ? rows.map(r=>`<tr class="${r.g}"><th scope="row"><button class="linkbtn" type="button" data-id="${r.id}">${esc(r.e)}</button></th><td>${esc(r.c)}</td><td>${esc(r.comp)}</td><td>${esc(r.heat)}</td><td>${esc(r.exp)}</td><td>${esc(r.rej)}</td><td>${esc(r.pulses)}</td></tr>`).join("")
+      : `<tr><td colspan="7" style="padding:22px 14px;color:var(--ink-soft)">Choose one or more engines above to fill in the table.</td></tr>`)+`</tbody>`;
   $("#cmp").querySelectorAll(".linkbtn").forEach(b=>b.addEventListener("click",()=>openEngine(b.dataset.id,true)));
 }
+$("#cmpAll").addEventListener("click",()=>{ COMPARE.forEach(r=>cmpSel.add(r.id)); renderCompare(); });
+$("#cmpNone").addEventListener("click",()=>{ cmpSel.clear(); renderCompare(); });
 
 function openEngine(id, scroll){
   const e = ENGINES.find(x=>x.id===id); if(!e) return;
@@ -857,6 +1120,8 @@ function openEngine(id, scroll){
     </div>
     <div>
       <div class="vis" id="vis"></div>
+      <div class="cyc"><button class="btn" type="button" id="cycBtn" aria-expanded="false" aria-controls="charts">Show pV and Ts diagrams</button>
+        <div id="charts" hidden><div class="charts" id="chartRow"></div><p class="small" id="cycCap"></p></div></div>
       <div class="chips" id="chips"></div>
       <ol class="steps" id="steps">${e.steps.map((s,i)=>`<li><button type="button" data-i="${i}"><b>${i+1}</b>${esc(s.t)}</button></li>`).join("")}</ol>
       <div class="stepbody" aria-live="polite"><h4 id="stepT"></h4><p id="stepD"></p></div>
@@ -869,9 +1134,9 @@ function openEngine(id, scroll){
     </div>
    </div>
    <div class="cols">
-    <div><h4>What to say</h4><ul>${e.say.map(s=>`<li>${esc(s)}</li>`).join("")}</ul></div>
     <div><h4>Questions students ask</h4>${e.qa.map(q=>`<details><summary>${esc(q.q)}</summary><p>${esc(q.a)}</p></details>`).join("")}</div>
     <div><h4>Good to know</h4><ul>${e.facts.map(s=>`<li>${esc(s)}</li>`).join("")}</ul></div>
+    <div><h4>In the real world</h4><ul class="links">${(LINKS[id]||[]).map(l=>`<li><a href="${esc(l.u)}" target="_blank" rel="noopener noreferrer">${esc(l.t)}<span class="sr"> (opens in a new tab)</span></a> <span class="small">${esc(l.d)}</span></li>`).join("")}</ul></div>
    </div>
    <div class="revrow"><button class="btn" type="button" id="rev" aria-pressed="${!!state.reviewed[id]}">${state.reviewed[id]?"Reviewed":"Mark as reviewed"}</button><span class="small">${Object.keys(state.reviewed).filter(k=>state.reviewed[k]).length} of ${ENGINES.length} reviewed</span></div>`;
   // hotspots
@@ -883,6 +1148,15 @@ function openEngine(id, scroll){
   // visual
   vis = makeVisual(e.visual);
   $("#vis").appendChild(vis.el);
+  cycleDotFn = null;
+  if (vis.chart){
+    const pvC=makeChart(vis.chart.pv), tsC=makeChart(vis.chart.ts);
+    const row=$("#chartRow");
+    [["pV",pvC],["Ts",tsC]].forEach(([n,c])=>{ const fig=document.createElement("figure"); fig.className="chart"; fig.appendChild(c.el); const cap=document.createElement("figcaption"); cap.textContent=n+" diagram"; fig.appendChild(cap); row.appendChild(fig); });
+    $("#cycCap").textContent=vis.chart.caption+" Diagrams are schematic ideal cycles; the dot moves with the animation.";
+    cycleDotFn = f=>{ pvC.set(f); tsC.set(f); };
+    $("#cycBtn").addEventListener("click",ev=>{ const open=$("#charts").hidden; $("#charts").hidden=!open; ev.currentTarget.setAttribute("aria-expanded",String(open)); ev.currentTarget.textContent=open?"Hide pV and Ts diagrams":"Show pV and Ts diagrams"; });
+  } else { $(".cyc").remove(); }
   const showStep=(i,instant)=>{
     clearTimeout(autoTimer);
     state.step=i; const s=e.steps[i];
@@ -896,29 +1170,43 @@ function openEngine(id, scroll){
   $("#next").addEventListener("click",()=>showStep((state.step+1)%e.steps.length,false));
   $("#replay").addEventListener("click",()=>showStep(state.step,false));
   $("#auto").addEventListener("click",ev=>{ autoOn=!autoOn; ev.currentTarget.setAttribute("aria-pressed",String(autoOn)); ev.currentTarget.textContent=autoOn?"Pause":"Auto-play"; if(autoOn) showStep(state.step,false); else { clearTimeout(autoTimer); } });
-  $("#rev").addEventListener("click",ev=>{ state.reviewed[id]=!state.reviewed[id]; save(); renderGallery(); ev.currentTarget.setAttribute("aria-pressed",String(!!state.reviewed[id])); ev.currentTarget.textContent=state.reviewed[id]?"Reviewed":"Mark as reviewed"; ev.currentTarget.nextElementSibling.textContent=Object.keys(state.reviewed).filter(k=>state.reviewed[k]).length+" of "+ENGINES.length+" reviewed"; });
+  $("#rev").addEventListener("click",ev=>{ state.reviewed[id]=!state.reviewed[id]; save(); renderTabs(); ev.currentTarget.setAttribute("aria-pressed",String(!!state.reviewed[id])); ev.currentTarget.textContent=state.reviewed[id]?"Reviewed":"Mark as reviewed"; ev.currentTarget.nextElementSibling.textContent=Object.keys(state.reviewed).filter(k=>state.reviewed[k]).length+" of "+ENGINES.length+" reviewed"; });
   showStep(0,true);
   if(scroll) $("#explore").scrollIntoView({behavior:reduce?"auto":"smooth"});
 }
 
-/* quiz */
+/* quiz: two guesses per question */
+const guessesOf = qi => { const g=state.quiz[qi]; return Array.isArray(g)?g:(g===undefined?[]:[g]); };
+const resolved = qi => { const q=QUIZ[qi], g=guessesOf(qi); return g.length>0 && (g[g.length-1]===q.a || g.length>=2); };
+function paintQuestion(div){
+  const qi=+div.dataset.q, q=QUIZ[qi], g=guessesOf(qi), done=resolved(qi);
+  div.querySelectorAll(".opt").forEach(b=>{
+    const oi=+b.dataset.o; b.classList.remove("right","wrong");
+    if (g.includes(oi) && oi!==q.a) b.classList.add("wrong");
+    if (done && oi===q.a) b.classList.add("right");
+    b.disabled = done || g.includes(oi);
+  });
+  const fb=div.querySelector(".fb");
+  if (!g.length){ fb.hidden=true; return; }
+  fb.hidden=false;
+  const last=g[g.length-1];
+  if (last===q.a) fb.textContent=(g.length===1?"Right. ":"Right on the second try. ")+q.x;
+  else if (g.length===1) fb.textContent="Not quite. "+(q.w[last]||"")+" Have one more go.";
+  else fb.textContent="Not this time. "+(q.w[last]||"")+" The answer is “"+q.o[q.a]+"”. "+q.x;
+}
 function renderQuiz(){
-  $("#quiz").innerHTML = QUIZ.map((q,qi)=>`<div class="q" data-q="${qi}"><h4>${qi+1}. ${esc(q.q)}</h4><div class="opts">${q.o.map((o,oi)=>`<button type="button" class="opt" data-o="${oi}">${esc(o)}</button>`).join("")}</div><p class="fb" hidden></p></div>`).join("");
+  $("#quiz").innerHTML = QUIZ.map((q,qi)=>`<div class="q" data-q="${qi}"><h4>${qi+1}. ${esc(q.q)}</h4><div class="opts">${q.o.map((o,oi)=>`<button type="button" class="opt" data-o="${oi}">${esc(o)}</button>`).join("")}</div><p class="fb" hidden aria-live="polite"></p></div>`).join("");
   $("#quiz").querySelectorAll(".q").forEach(div=>{
     const qi=+div.dataset.q;
-    const apply=oi=>{
-      const q=QUIZ[qi];
-      div.querySelectorAll(".opt").forEach(b=>{ b.disabled=true; if(+b.dataset.o===q.a) b.classList.add("right"); else if(+b.dataset.o===oi) b.classList.add("wrong"); });
-      const fb=div.querySelector(".fb"); fb.hidden=false; fb.textContent=(oi===q.a?"Right. ":"Not quite. ")+q.x;
-    };
-    div.querySelectorAll(".opt").forEach(b=>b.addEventListener("click",()=>{ const oi=+b.dataset.o; state.quiz[qi]=oi; save(); apply(oi); updateScore(); }));
-    if(state.quiz[qi]!==undefined) apply(state.quiz[qi]);
+    div.querySelectorAll(".opt").forEach(b=>b.addEventListener("click",()=>{ const g=guessesOf(qi).slice(); g.push(+b.dataset.o); state.quiz[qi]=g; save(); paintQuestion(div); updateScore(); }));
+    paintQuestion(div);
   });
   updateScore();
 }
 function updateScore(){
-  const answered=Object.keys(state.quiz).length; let right=0; Object.keys(state.quiz).forEach(k=>{ if(state.quiz[k]===QUIZ[k].a) right++; });
-  $("#score").textContent = answered===0 ? "" : answered<QUIZ.length ? `${answered} of ${QUIZ.length} answered, ${right} right so far.` : `You got ${right} of ${QUIZ.length}.`+(right===QUIZ.length?" Ready for lab.":" Revisit the walkthrough for any you missed.");
+  let answered=0, first=0, second=0;
+  QUIZ.forEach((q,qi)=>{ const g=guessesOf(qi); if(resolved(qi)){ answered++; if(g[0]===q.a) first++; else if(g[1]===q.a) second++; } });
+  $("#score").textContent = answered===0 ? "" : answered<QUIZ.length ? `${answered} of ${QUIZ.length} answered.` : `Done: ${first} right first time, ${second} right on the second try, ${QUIZ.length-first-second} to revisit.`;
 }
 $("#quizReset").addEventListener("click",()=>{ state.quiz={}; save(); renderQuiz(); });
 
@@ -928,7 +1216,7 @@ function renderChecklist(){
   $("#checklist").querySelectorAll("input").forEach(inp=>inp.addEventListener("change",()=>{ state.checks[inp.dataset.i]=inp.checked; save(); }));
 }
 
-load(); renderGallery(); renderCompare(); renderQuiz(); renderChecklist();
+load(); renderCompare(); renderQuiz(); renderChecklist();
 const start = (location.hash||"").replace("#","");
 if (ENGINES.some(e=>e.id===start)) { openEngine(start,false); setTimeout(()=>$("#explore").scrollIntoView(),0); } else openEngine("steam",false);
 
